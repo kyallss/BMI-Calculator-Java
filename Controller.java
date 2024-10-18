@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 public class BMICalculatorController {
 
     @FXML
+    @FXML
     private TextField weightField;
     @FXML
     private TextField heightField;
@@ -16,6 +17,7 @@ public class BMICalculatorController {
     @FXML
     private Label resultLabel;
 
+    //method to initialize the combo box with two options, "Metric" and "English"
     @FXML
     public void initialize() {
 
@@ -23,6 +25,7 @@ public class BMICalculatorController {
         unitComboBox.getItems().add("English");
     }
 
+    //this method is called when the "Calculate" button is pressed
     @FXML
     private void handleCalculate() {
         String weightText = weightField.getText();
@@ -62,7 +65,7 @@ public class BMICalculatorController {
     private void handleExit() {
         javafx.application.Platform.exit();
     }
-
+    // method to clear all input fields and reset the result label
     @FXML
     private void handleClear() {
         weightField.clear();
