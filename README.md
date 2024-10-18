@@ -9,6 +9,4 @@ This is a simple Body mass index calculator built using Java and JavaFX. The app
 - **Exit Button** Allows users to close the app.
 
 
-![Example]("C:\Users\asykp\OneDrive\Bilder\Screenshots\Screenshot 2024-10-18 170809.png")
-![Example]("C:\Users\asykp\OneDrive\Bilder\Screenshots\Screenshot 2024-10-18 170730.png")
 
