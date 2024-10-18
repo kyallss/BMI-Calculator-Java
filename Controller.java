@@ -1,71 +1,78 @@
 package org.example.bmi;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
-public class Controller {
+public class BMICalculatorController {
 
     @FXML
-    private TextField weightInput;
-
+    private TextField weightField;
     @FXML
-    private TextField heightInput;
-
+    private TextField heightField;
     @FXML
-    private ChoiceBox<String> unitChoice;
-
+    private ComboBox<String> unitComboBox;
     @FXML
-    private Button calculateButton;
-
-    @FXML
-    private Label bmiResultLabel;
-
-    @FXML
-    private Label bmiStatusLabel;
+    private Label resultLabel;
 
     @FXML
     public void initialize() {
-        unitChoice.getItems().addAll("Metric", "English");
-        unitChoice.setValue("Metric");
 
-        calculateButton.setOnAction(e -> calculateBMI());
+        unitComboBox.getItems().add("Metric");
+        unitComboBox.getItems().add("English");
     }
 
-    private void calculateBMI() {
-        try {
-            double weight = Double.parseDouble(weightInput.getText());
-            double height = Double.parseDouble(heightInput.getText());
-            String unit = unitChoice.getValue();
+    @FXML
+    private void handleCalculate() {
+        String weightText = weightField.getText();
+        String heightText = heightField.getText();
+        String selectedUnit = unitComboBox.getValue();
 
-            double bmi = calculateBMIValue(weight, height, unit);
-            bmiResultLabel.setText(String.format("Your BMI: %.2f", bmi));
-            bmiStatusLabel.setText(determineStatus(bmi));
-        } catch (NumberFormatException ex) {
-            bmiResultLabel.setText("Error");
+        if (weightText.isEmpty() || heightText.isEmpty() || selectedUnit == null) {
+            resultLabel.setText("Please fill in all fields!");
+            return;
         }
-    }
 
-    private double calculateBMIValue(double weight, double height, String unit) {
-        if (unit.equals("Metric")) {
-            return weight / (height * height);
+        double weight = Double.parseDouble(weightText);
+        double height = Double.parseDouble(heightText);
+
+        double bmi;
+        if (selectedUnit.equals("Metric")) {
+            bmi = weight / (height * height);
         } else {
-            return (weight / (height * height)) * 703;
+            bmi = (weight / (height * height)) * 703;
         }
-    }
 
-    private String determineStatus(double bmi) {
+        String status;
         if (bmi < 18.5) {
-            return "Underweight";
-        } else if (bmi >= 18.5 && bmi <= 24.9) {
-            return "Normal";
-        } else if (bmi >= 25 && bmi <= 29.9) {
-            return "Overweight";
+            status = "Underweight";
+        } else if (bmi < 24.9) {
+            status = "Normal";
+        } else if (bmi < 29.9) {
+            status = "Overweight";
         } else {
-            return "Obese";
+            status = "Obese";
         }
+
+        resultLabel.setText(String.format("Your BMI: %.2f (%s)", bmi, status));
+    }
+
+    @FXML
+    private void handleExit() {
+        javafx.application.Platform.exit();
+    }
+
+    @FXML
+    private void handleClear() {
+        weightField.clear();
+        heightField.clear();
+        unitComboBox.getSelectionModel().clearSelection();
+        resultLabel.setText("Your BMI will be shown here");
+    }
+
+    @FXML
+    private void handleAbout() {
+        System.out.println("This is a BMI Calculator App.");
     }
 }
